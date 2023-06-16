@@ -1,0 +1,19 @@
+{
+    "name": "newnetcms/asset",
+    "description": "Asset",
+    "autoload": {
+        "psr-4": {
+            "Newnet\\Asset\\": "/src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Newnet\\Asset\\AssetServiceProvider"
+            ],
+            "aliases": {
+                "Asset": "Newnet\\Asset\\Facades\\Asset"
+            }
+        }
+    }
+}
