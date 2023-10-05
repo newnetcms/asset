@@ -83,34 +83,17 @@ class Asset implements Htmlable
         return $this;
     }
 
-    /**
-     * Add an asset to the container.
-     * The extension of the asset source will be used to determine the type
-     * of asset being registered (CSS or JavaScript). When using a non-standard
-     * extension, the style/script methods may be used to register assets.
-     * <code>
-     *     // Add an asset to the container
-     *     Asset::container()->add('jquery', 'js/jquery.js');
-     *     // Add an asset that has dependencies on other assets
-     *     Asset::add('jquery', 'js/jquery.js', 'jquery-ui');
-     *     // Add an asset that should have attributes applied to its tags
-     *     Asset::add('jquery', 'js/jquery.js', null, array('defer'));
-     * </code>
-     *
-     * @param  string|array  $name
-     * @param  string  $source
-     * @param  string|array  $dependencies
-     * @param  string|array  $attributes
-     * @param  string|array  $replaces
-     * @return $this
-     */
     public function add(
         $name,
-        string $source = null,
+        $source = null,
         $dependencies = [],
         $attributes = [],
         $replaces = []
     ) {
+        if (!$source) {
+            $source = $name;
+        }
+
         if ($source) {
             $type = (strpos(pathinfo($source, PATHINFO_EXTENSION), 'css') === 0) ? 'style' : 'script';
 
@@ -120,23 +103,17 @@ class Asset implements Htmlable
         return $this;
     }
 
-    /**
-     * Add a CSS file to the registered assets.
-     *
-     * @param  string|array  $name
-     * @param  string  $source
-     * @param  string|array  $dependencies
-     * @param  string|array  $attributes
-     * @param  string|array  $replaces
-     * @return $this
-     */
     public function style(
         $name,
-        string $source,
+        $source = null,
         $dependencies = [],
         $attributes = [],
         $replaces = []
     ) {
+        if (!$source) {
+            $source = $name;
+        }
+
         if (!array_key_exists('media', $attributes)) {
             $attributes['media'] = 'all';
         }
@@ -146,45 +123,29 @@ class Asset implements Htmlable
         return $this;
     }
 
-    /**
-     * Add a JavaScript file to the registered assets.
-     *
-     * @param  string|array  $name
-     * @param  string  $source
-     * @param  string|array  $dependencies
-     * @param  string|array  $attributes
-     * @param  string|array  $replaces
-     * @return $this
-     */
     public function script(
         $name,
-        string $source,
+        $source = null,
         $dependencies = [],
         $attributes = [],
         $replaces = []
     ) {
+        if (!$source) {
+            $source = $name;
+        }
+
         $this->register('script', $name, $source, $dependencies, $attributes, $replaces);
 
         return $this;
     }
 
-    /**
-     * Add an asset to the array of registered assets.
-     *
-     * @param  string  $type
-     * @param  string|array  $name
-     * @param  string  $source
-     * @param  string|array  $dependencies
-     * @param  string|array  $attributes
-     * @param  string|array  $replaces
-     */
     protected function register(
         string $type,
-        $name,
+               $name,
         string $source,
-        $dependencies,
-        $attributes,
-        $replaces
+               $dependencies,
+               $attributes,
+               $replaces
     ): void {
         $dependencies = (array) $dependencies;
         $attributes = (array) $attributes;
